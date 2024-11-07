@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="calcolatrice.css">
+    <script>   
+        let print = "";
+        function somma(){
+            let tempNum1=document.getElementById("demo").value
+            let tempNum2=document.getElementById("demo2").value
+            let num1=parseFloat(tempNum1)
+            let num2=parseFloat(tempNum2)
+            print = num1+num2
+
+        }
+
+        function sottrazione(){
+            let tempNum1=document.getElementById("demo").value
+            let tempNum2=document.getElementById("demo2").value
+            let num1=parseFloat(tempNum1)
+            let num2=parseFloat(tempNum2)
+            print = num1-num2
+ 
+        }
+
+        function moltiplicazione(){
+            let tempNum1=document.getElementById("demo").value
+            let tempNum2=document.getElementById("demo2").value
+            let num1=parseFloat(tempNum1)
+            let num2=parseFloat(tempNum2)
+            print = num1*num2
+
+        }
+
+        function divisione(){
+            let tempNum1=document.getElementById("demo").value
+            let tempNum2=document.getElementById("demo2").value
+            let num1=parseFloat(tempNum1)
+            let num2=parseFloat(tempNum2)
+            print = num1/num2
+
+        }
+
+        function uguale(){
+            document.getElementById("dest").innerHTML=print
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Calcolatrice</h1>
+        <div>
+            <input placeholder="Primo numero" type="text" id="demo">
+        </div>
+        <div>
+            <input placeholder="Secondo numero" type="text" id="demo2">
+        </div>
+        <div>
+            <input class="button" type="button" value="+" onclick="somma()">
+            <input class="button" type="button" value="-" onclick="sottrazione()">
+            <input class="button" type="button" value="x" onclick="moltiplicazione()">
+            <input class="button" type="button" value="÷" onclick="divisione()">
+        </div>
+        <div>
+            <input id="uguale" class="button" type="button" value="=" onclick="uguale()">
+        </div>
+        <div>   
+            <p class="output" id="dest">risultato</p>
+        </div>
+    </div>
+</body>
+</html>
