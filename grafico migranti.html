@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carica CSV e Visualizza Tabella</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Carica il tuo file CSV</h1>
+    <input type="file" id="csvFile" accept=".csv">
+    
+    <table id="dataTable">
+        <thead>
+            <tr>
+                <th>Anno</th>
+                <th>Numero di persone sbarcate</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    
+    <canvas id="migrationChart" width="400" height="200"></canvas>
+
+    <script>
+        document.getElementById('csvFile').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const contents = e.target.result;
+                    parseCSV(contents);
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        let chartInstance = null;
+
+        function parseCSV(data) {
+            const rows = data.split('\n');
+            const tableBody = document.querySelector('#dataTable tbody');
+            tableBody.innerHTML = '';  
+            const years = [];
+            const values = [];
+
+            rows.forEach(function(row) {
+                const columns = row.split('\t');
+                if (columns.length === 2) {
+                    const year = columns[0].trim();
+                    const value = parseInt(columns[1].trim(), 10);
+
+                   
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `<td>${year}</td><td>${value}</td>`;
+                    tableBody.appendChild(tr);
+
+                    years.push(year);
+                    values.push(value);
+                }
+            });
+
+            
+            if (chartInstance) {
+                chartInstance.destroy();  
+            }
+
+            const ctx = document.getElementById('migrationChart').getContext('2d');
+            chartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: years,
+                    datasets: [{
+                        data: values,
+                        borderColor: 'black',
+                        fill: false,
+                        pointRadius: 0 
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false  
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Anno'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Sbarchi'
+                            },
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+       
+        window.onload = function() {
+            const data = `
+            1997\t22343
+            1998\t38134
+            1999\t49999
+            2000\t26817
+            2001\t20143
+            2002\t23719
+            2003\t14331
+            2004\t13635
+            2005\t22939
+            2006\t22016
+            2007\t20455
+            2008\t36951
+            2009\t9573
+            2010\t4406
+            2011\t62692
+            2012\t13267
+            2013\t42925
+            2014\t170100
+            2015\t153842
+            2016\t181436
+            2017\t119369
+            2018\t23370
+            2019\t11471
+            2020\t34154`;
+
+            parseCSV(data);
+        }
+    </script>
+</body>
+</html>
+
