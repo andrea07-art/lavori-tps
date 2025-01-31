@@ -42,12 +42,12 @@
         
         function parseCSV(data) {
             const rows = data.split('\n');
-            const tableBody = document.querySelector('#dataTable tbody');
-            tableBody.innerHTML = ''; 
+            const tableBody = document.querySelector(' tbody');
+          
 
             rows.forEach(function(row) {
-                const columns = row.split('\t');
-                if (columns.length === 2) { 
+                const columns = row.split(',');
+                if (columns.length == 2) { 
                     const tr = document.createElement('tr');
                     const td1 = document.createElement('td');
                     td1.textContent = columns[0]; 
